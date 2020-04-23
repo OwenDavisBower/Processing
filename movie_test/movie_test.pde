@@ -2,7 +2,7 @@ import processing.video.*;
 
 Movie movie;
 
-float[] timestamps = new float[]{ 10f, 20f, 30f, 40f };
+float[] timestamps = new float[]{ 0f, 10f, 20f, 30f, 40f, 50f, 60f, 70f, 80f };
 
 void setup() {
   movie = new Movie(this, "bali.m4v");
@@ -61,11 +61,14 @@ float nextTimestamp() {
 }
 
 float previousTimestamp() {
-  float currentTime = movie.time();
+  // Drop 0.5f seconds from current time to make it easier to skip backwards
+  float currentTime = movie.time() - 0.5f;
   
   for (int i = timestamps.length - 1; i >= 0; i--) {
     float timestamp = timestamps[i];
     if (currentTime > timestamp) {
+      print("Back to");
+      print(timestamp);
       return timestamp; 
     }
   }
