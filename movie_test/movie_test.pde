@@ -24,17 +24,49 @@ void movieEvent(Movie m) {
 }
 
 void keyPressed() {
+  switch(key) {
+    case 'a':
+      jumpToPreviousTimestamp();
+    case 'd':
+      jumpToNextTimestamp();
+      break;
+    default:
+      break;
+  }
+}
+
+void jumpToNextTimestamp() {
   if (nextTimestamp() != -1f) {
     movie.jump(nextTimestamp());
+  }
+}
+
+void jumpToPreviousTimestamp() {
+  if (previousTimestamp() != -1f) {
+    movie.jump(previousTimestamp());
   }
 }
 
 float nextTimestamp() {
   float currentTime = movie.time();
   
+  
   for (float timestamp : timestamps) {
     if (currentTime < timestamp) {
       return timestamp;
+    }
+  }
+  
+  return -1f;
+}
+
+float previousTimestamp() {
+  float currentTime = movie.time();
+  
+  for (int i = timestamps.length - 1; i >= 0; i--) {
+    float timestamp = timestamps[i];
+    if (currentTime > timestamp) {
+      return timestamp; 
     }
   }
   
