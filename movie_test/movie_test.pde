@@ -1,16 +1,17 @@
 import processing.video.*;
 import processing.sound.*;
 
-SoundFile recordScratchSound;
+SoundFile transitionSound;
 Movie movie;
 
-//final float[] timestamps = new float[]{ 0f, 10f, 20f, 30f, 40f, 50f, 60f, 70f, 80f };
 final float[] timestamps = new float[]{ 0f, 3.84f, 7.6f, 11.2f, 14.9f, 18.69f, 22.28f, 25.96f };
-boolean playSoundEffects = false;
+boolean soundEffectsEnabled = false;
 
 void setup() {
-  recordScratchSound = new SoundFile(this, "recordscratch.mp3");
+  // Add sound effect on transitions
+  transitionSound = new SoundFile(this, "recordscratch.mp3");
   
+  // Movie file
   movie = new Movie(this, "balishort.m4v");
   movie.frameRate(30);
   movie.play();
@@ -46,19 +47,23 @@ void keyPressed() {
 void jumpToNextTimestamp() {
   if (nextTimestamp() != -1f) {
     movie.jump(nextTimestamp());
-    if (playSoundEffects) { recordScratchSound.play(); }
+    playTransitionSoundEffect();
   }
 }
 
 void jumpToPreviousTimestamp() {
   if (previousTimestamp() != -1f) {
     movie.jump(previousTimestamp());
-    if (playSoundEffects) { recordScratchSound.play(); }
+    playTransitionSoundEffect();
   }
 }
 
+void playTransitionSoundEffect() {
+  if (soundEffectsEnabled && transitionSound != null) { transitionSound.play(); }
+}
+
 void toggleSoundEffects() {
-  playSoundEffects = !playSoundEffects;
+  soundEffectsEnabled = !soundEffectsEnabled;
 }
 
 float nextTimestamp() {
